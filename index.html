@@ -1,289 +1,593 @@
+# Traof Certificate Studio - النسخة الاحترافية
+
+استبدل ملف `index.html` بالكامل بهذا الكود:
+
+```html
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>استوديو التصميم - نظام الشهايد</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts (Tajawal & Cairo) -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Traof Certificate Studio</title>
 
-    <style>
-        :root {
-            --primary: #1a5c37;
-            --secondary: #2c3e50;
-            --bg-app: #f8fafc;
-            --text-main: #1e293b;
-            --border-color: #e2e8f0;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-        }
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: var(--bg-app);
-            color: var(--text-main);
-            margin: 0;
-            height: 100vh;
-            overflow: hidden;
-        }
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-        .dashboard-wrapper {
-            display: flex;
-            height: 100vh;
-            width: 100%;
-        }
+:root{
+    --primary:#0f172a;
+    --secondary:#16a34a;
+    --accent:#22c55e;
+    --glass:rgba(255,255,255,0.08);
+    --border:rgba(255,255,255,0.12);
+    --text:#f8fafc;
+    --muted:#cbd5e1;
+}
 
-        /* Sidebar Style */
-        .settings-sidebar {
-            width: 380px;
-            background: white;
-            border-left: 1px solid var(--border-color);
-            padding: 1.5rem;
-            overflow-y: auto;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.02);
-            z-index: 10;
-        }
+body{
+    font-family:'Cairo',sans-serif;
+    background:
+    radial-gradient(circle at top right,#14532d 0%,transparent 25%),
+    radial-gradient(circle at bottom left,#0f766e 0%,transparent 20%),
+    linear-gradient(135deg,#020617,#0f172a,#111827);
+    color:white;
+    overflow:hidden;
+    height:100vh;
+}
 
-        /* Workspace Style */
-        .workspace-area {
-            flex: 1;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            background: #f1f5f9;
-            overflow: hidden;
-        }
+.dashboard{
+    display:flex;
+    height:100vh;
+}
 
-        .preview-container-wrapper {
-            flex: 1;
-            background: white;
-            border-radius: 1.5rem;
-            border: 1px solid var(--border-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: auto;
-            position: relative;
-        }
+.sidebar{
+    width:400px;
+    background:rgba(15,23,42,.75);
+    backdrop-filter:blur(20px);
+    border-left:1px solid var(--border);
+    overflow-y:auto;
+    padding:25px;
+}
 
-        /* Draggable Elements */
-        .draggable-text-premium {
-            position: absolute;
-            cursor: move;
-            padding: 5px 10px;
-            border: 2px dashed transparent;
-            user-select: none;
-            display: flex;
-            align-items: center;
-            white-space: nowrap;
-        }
+.logo-box{
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+    border-radius:25px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 20px 50px rgba(34,197,94,.25);
+}
 
-        .draggable-text-premium:hover {
-            border-color: var(--primary);
-            background: rgba(26, 92, 55, 0.05);
-        }
+.logo-title{
+    font-size:28px;
+    font-weight:900;
+}
 
-        .drag-handle {
-            background: var(--primary);
-            color: white;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 12px;
-            margin-left: 10px;
-            opacity: 0;
-            transition: 0.3s;
-        }
+.logo-sub{
+    opacity:.9;
+    margin-top:8px;
+}
 
-        .draggable-text-premium:hover .drag-handle {
-            opacity: 1;
-        }
+.panel{
+    background:var(--glass);
+    border:1px solid var(--border);
+    border-radius:25px;
+    padding:22px;
+    margin-bottom:20px;
+    backdrop-filter:blur(15px);
+}
 
-        .fit-image {
-            max-width: 100%;
-            max-height: 75vh;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
+.panel-title{
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:18px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
 
-        .btn-premium {
-            border-radius: 12px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
+.upload-box{
+    border:2px dashed rgba(255,255,255,.2);
+    border-radius:25px;
+    padding:40px 20px;
+    text-align:center;
+    cursor:pointer;
+    transition:.4s;
+    background:rgba(255,255,255,.03);
+}
 
-        .btn-premium-primary {
-            background: var(--primary);
-            color: white;
-            border: none;
-        }
+.upload-box:hover{
+    transform:translateY(-5px);
+    border-color:#22c55e;
+    background:rgba(34,197,94,.08);
+}
 
-        .btn-premium-primary:hover {
-            background: #14462a;
-            transform: translateY(-2px);
-        }
+.upload-box i{
+    font-size:55px;
+    margin-bottom:15px;
+    color:#22c55e;
+}
 
-        .accordion-button:not(.collapsed) {
-            background-color: rgba(26, 92, 55, 0.05);
-            color: var(--primary);
-        }
-    </style>
+.form-label{
+    color:#fff;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.form-control,
+.form-range,
+.form-select{
+    border-radius:15px;
+}
+
+.form-control{
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+    color:white;
+    padding:14px;
+}
+
+.form-control:focus{
+    background:rgba(255,255,255,.1);
+    color:white;
+    box-shadow:none;
+    border-color:#22c55e;
+}
+
+.workspace{
+    flex:1;
+    padding:30px;
+    position:relative;
+}
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:20px;
+}
+
+.topbar h1{
+    font-size:32px;
+    font-weight:900;
+}
+
+.action-buttons{
+    display:flex;
+    gap:15px;
+}
+
+.btn-pro{
+    border:none;
+    padding:14px 22px;
+    border-radius:18px;
+    font-weight:700;
+    transition:.4s;
+}
+
+.btn-green{
+    background:linear-gradient(135deg,#16a34a,#22c55e);
+    color:white;
+    box-shadow:0 15px 30px rgba(34,197,94,.25);
+}
+
+.btn-darkx{
+    background:rgba(255,255,255,.08);
+    color:white;
+    border:1px solid rgba(255,255,255,.12);
+}
+
+.btn-pro:hover{
+    transform:translateY(-4px) scale(1.02);
+}
+
+.preview-wrapper{
+    height:calc(100vh - 120px);
+    background:rgba(255,255,255,.05);
+    border:1px solid rgba(255,255,255,.08);
+    border-radius:35px;
+    backdrop-filter:blur(15px);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    overflow:auto;
+    position:relative;
+}
+
+.empty-state{
+    text-align:center;
+}
+
+.empty-state i{
+    font-size:90px;
+    opacity:.2;
+    margin-bottom:20px;
+}
+
+.empty-state h2{
+    font-weight:900;
+}
+
+#canvasArea{
+    position:relative;
+    display:none;
+}
+
+#templatePreview{
+    max-width:100%;
+    max-height:82vh;
+    border-radius:20px;
+    box-shadow:0 25px 60px rgba(0,0,0,.45);
+}
+
+.layer{
+    position:absolute;
+    cursor:move;
+    user-select:none;
+    padding:10px 18px;
+    border-radius:14px;
+    transition:.3s;
+    border:2px dashed transparent;
+}
+
+.layer:hover{
+    border-color:#22c55e;
+    background:rgba(0,0,0,.2);
+}
+
+.layer-tools{
+    position:absolute;
+    top:-15px;
+    left:-15px;
+    width:35px;
+    height:35px;
+    border-radius:50%;
+    background:#22c55e;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white;
+    opacity:0;
+    transition:.3s;
+}
+
+.layer:hover .layer-tools{
+    opacity:1;
+}
+
+.layer-text{
+    font-size:48px;
+    font-weight:900;
+    color:#fff;
+    text-shadow:0 5px 15px rgba(0,0,0,.4);
+}
+
+.color-picker{
+    width:100%;
+    height:50px;
+    border:none;
+    border-radius:15px;
+    overflow:hidden;
+}
+
+.footer-note{
+    text-align:center;
+    margin-top:20px;
+    color:#94a3b8;
+    font-size:14px;
+}
+
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#22c55e;
+    border-radius:50px;
+}
+
+@media(max-width:1200px){
+    .sidebar{
+        width:330px;
+    }
+}
+
+@media(max-width:992px){
+    body{
+        overflow:auto;
+        height:auto;
+    }
+
+    .dashboard{
+        flex-direction:column;
+        height:auto;
+    }
+
+    .sidebar{
+        width:100%;
+        border-left:none;
+        border-bottom:1px solid rgba(255,255,255,.1);
+    }
+
+    .workspace{
+        height:auto;
+    }
+
+    .preview-wrapper{
+        height:75vh;
+    }
+}
+</style>
 </head>
 <body>
 
-<div class="dashboard-wrapper">
-    <!-- Sidebar -->
-    <aside class="settings-sidebar">
-        <div class="mb-4">
-            <h4 class="fw-bold text-main">استوديو التصميم</h4>
-            <p class="text-muted small">نسخة الويب (Static Version)</p>
-        </div>
+<div class="dashboard">
 
-        <div class="accordion" id="settingsAccordion">
-            <!-- 1. Media -->
-            <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
-                <h2 class="accordion-header">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFiles">
-                        <i class="fa-solid fa-image me-2"></i> 1. قالب الشهادة
-                    </button>
-                </h2>
-                <div id="collapseFiles" class="accordion-collapse collapse show">
-                    <div class="accordion-body">
-                        <div class="p-4 border-2 border-dashed rounded-4 text-center" onclick="document.getElementById('TemplateFile').click()" style="cursor: pointer; border-color: #cbd5e1;">
-                            <i class="fa-solid fa-cloud-arrow-up fs-2 text-muted mb-2"></i>
-                            <p class="small mb-0">انقر لرفع صورة القالب</p>
-                            <input type="file" id="TemplateFile" class="d-none" accept="image/*" onchange="previewImage(event)">
-                        </div>
-                    </div>
-                </div>
-            </div>
+<div class="sidebar">
 
-            <!-- 2. Text Layers -->
-            <div class="accordion-item border-0 mb-3 shadow-sm rounded-4 overflow-hidden">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseText">
-                        <i class="fa-solid fa-font me-2"></i> 2. النصوص
-                    </button>
-                </h2>
-                <div id="collapseText" class="accordion-collapse collapse">
-                    <div class="accordion-body">
-                        <div class="mb-3">
-                            <label class="small fw-bold mb-1">اسم المتدرب</label>
-                            <input type="text" class="form-control form-control-sm" value="محمد عبدالله" oninput="updateText('previewName', this.value)">
-                        </div>
-                        <div class="mb-3">
-                            <label class="small fw-bold mb-1">حجم الخط</label>
-                            <input type="range" class="form-range" min="10" max="100" value="48" oninput="updateStyle('previewName', 'fontSize', this.value + 'px')">
-                        </div>
-                        <div class="mb-3">
-                            <label class="small fw-bold mb-1">لون الخط</label>
-                            <input type="color" class="form-control form-control-color w-100" value="#000000" oninput="updateStyle('previewName', 'color', this.value)">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<div class="logo-box">
+    <div class="logo-title">
+        <i class="fa-solid fa-award"></i>
+        Traof Studio
+    </div>
 
-        <button class="btn btn-premium btn-premium-primary w-100 py-3 mt-4" onclick="downloadCertificate()">
-            <i class="fa-solid fa-download me-2"></i> تحميل الشهادة (PNG)
-        </button>
-        <p class="text-center text-muted small mt-2">ملاحظة: هذه النسخة تعمل بالكامل في المتصفح.</p>
-    </aside>
-
-    <!-- Workspace -->
-    <main class="workspace-area">
-        <div class="preview-container-wrapper" id="captureArea">
-            <div id="noImageOverlay" class="text-center p-5">
-                <i class="fa-solid fa-wand-magic-sparkles text-muted opacity-25 mb-3" style="font-size: 60px;"></i>
-                <h5 class="fw-bold">ارفع القالب للبدء</h5>
-            </div>
-
-            <div id="imageContainer" style="position: relative; display: none;">
-                <img id="imagePreview" src="#" class="fit-image rounded-2">
-                
-                <div id="previewName" class="draggable-text-premium" style="top: 50%; left: 50%; font-size: 48px; font-weight: bold;">
-                    <span class="drag-handle"><i class="fa-solid fa-arrows-up-down-left-right"></i></span>
-                    <div class="text-content">اسم المتدرب</div>
-                </div>
-            </div>
-        </div>
-    </main>
+    <div class="logo-sub">
+        منصة احترافية لتصميم الشهادات بطريقة إبداعية وحديثة
+    </div>
 </div>
 
-<!-- html2canvas for downloading -->
+<div class="panel">
+    <div class="panel-title">
+        <i class="fa-solid fa-image"></i>
+        رفع قالب الشهادة
+    </div>
+
+    <div class="upload-box" onclick="document.getElementById('templateInput').click()">
+        <i class="fa-solid fa-cloud-arrow-up"></i>
+        <h5>رفع صورة الشهادة</h5>
+        <p class="text-light opacity-75">PNG - JPG - WEBP</p>
+
+        <input type="file" id="templateInput" hidden accept="image/*" onchange="loadTemplate(event)">
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-title">
+        <i class="fa-solid fa-font"></i>
+        إعدادات النص
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">اسم المتدرب</label>
+        <input type="text" class="form-control" value="محمد عبدالله" oninput="changeText(this.value)">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">حجم الخط</label>
+        <input type="range" class="form-range" min="20" max="120" value="48" oninput="changeSize(this.value)">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">لون الخط</label>
+        <input type="color" class="color-picker" value="#ffffff" oninput="changeColor(this.value)">
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">نوع الخط</label>
+
+        <select class="form-select" onchange="changeFont(this.value)">
+            <option value="Cairo">Cairo</option>
+            <option value="Tahoma">Tahoma</option>
+            <option value="Arial">Arial</option>
+        </select>
+    </div>
+</div>
+
+<div class="panel">
+    <div class="panel-title">
+        <i class="fa-solid fa-sparkles"></i>
+        مميزات احترافية
+    </div>
+
+    <div class="d-grid gap-3">
+        <button class="btn btn-darkx btn-pro" onclick="centerLayer()">
+            <i class="fa-solid fa-arrows-to-dot"></i>
+            توسيط النص
+        </button>
+
+        <button class="btn btn-darkx btn-pro" onclick="toggleShadow()">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+            تشغيل الظل
+        </button>
+    </div>
+</div>
+
+<div class="footer-note">
+    تم التطوير بواسطة Traof Digital Solutions
+</div>
+
+</div>
+
+<div class="workspace">
+
+<div class="topbar">
+    <h1>
+        <i class="fa-solid fa-layer-group"></i>
+        استوديو تصميم الشهادات
+    </h1>
+
+    <div class="action-buttons">
+        <button class="btn-pro btn-darkx" onclick="resetDesign()">
+            <i class="fa-solid fa-rotate"></i>
+            إعادة ضبط
+        </button>
+
+        <button class="btn-pro btn-green" onclick="downloadDesign()">
+            <i class="fa-solid fa-download"></i>
+            تحميل PNG
+        </button>
+    </div>
+</div>
+
+<div class="preview-wrapper" id="captureBox">
+
+<div class="empty-state" id="emptyState">
+    <i class="fa-solid fa-wand-magic-sparkles"></i>
+    <h2>ابدأ برفع قالب الشهادة</h2>
+    <p class="text-light opacity-75 mt-3">أنشئ شهادات احترافية بسهولة</p>
+</div>
+
+<div id="canvasArea">
+
+<img id="templatePreview" src="">
+
+<div class="layer" id="nameLayer" style="top:50%;left:50%;transform:translate(-50%,-50%);">
+
+<div class="layer-tools">
+    <i class="fa-solid fa-up-down-left-right"></i>
+</div>
+
+<div class="layer-text" id="layerText">
+    محمد عبدالله
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 <script>
-    function previewImage(event) {
-        const reader = new FileReader();
-        reader.onload = function() {
-            document.getElementById('imagePreview').src = reader.result;
-            document.getElementById('imageContainer').style.display = 'block';
-            document.getElementById('noImageOverlay').style.display = 'none';
-        }
-        if (event.target.files[0]) reader.readAsDataURL(event.target.files[0]);
+const layer = document.getElementById('nameLayer');
+const layerText = document.getElementById('layerText');
+
+function loadTemplate(event){
+    const file = event.target.files[0];
+
+    if(!file) return;
+
+    const reader = new FileReader();
+
+    reader.onload = function(e){
+        document.getElementById('templatePreview').src = e.target.result;
+        document.getElementById('canvasArea').style.display='block';
+        document.getElementById('emptyState').style.display='none';
     }
 
-    function updateText(id, val) {
-        document.getElementById(id).querySelector('.text-content').innerText = val || "(فارغ)";
+    reader.readAsDataURL(file);
+}
+
+function changeText(value){
+    layerText.innerText = value || 'اسم المتدرب';
+}
+
+function changeSize(value){
+    layerText.style.fontSize = value + 'px';
+}
+
+function changeColor(value){
+    layerText.style.color = value;
+}
+
+function changeFont(value){
+    layerText.style.fontFamily = value;
+}
+
+function centerLayer(){
+    layer.style.top='50%';
+    layer.style.left='50%';
+    layer.style.transform='translate(-50%,-50%)';
+}
+
+let shadowEnabled = true;
+
+function toggleShadow(){
+    shadowEnabled = !shadowEnabled;
+
+    if(shadowEnabled){
+        layerText.style.textShadow='0 5px 15px rgba(0,0,0,.4)';
+    }else{
+        layerText.style.textShadow='none';
+    }
+}
+
+function resetDesign(){
+    location.reload();
+}
+
+function downloadDesign(){
+
+    if(document.getElementById('canvasArea').style.display === 'none'){
+        alert('قم برفع قالب أولاً');
+        return;
     }
 
-    function updateStyle(id, prop, val) {
-        document.getElementById(id).style[prop] = val;
-    }
+    document.querySelector('.layer-tools').style.display='none';
 
-    // Drag and Drop Logic
-    let activeEl = null;
-    let isDragging = false;
-    let startX, startY, initialLeft, initialTop;
+    html2canvas(document.getElementById('canvasArea'),{
+        scale:2,
+        useCORS:true
+    }).then(canvas=>{
 
-    document.querySelectorAll('.draggable-text-premium').forEach(item => {
-        item.addEventListener('mousedown', function(e) {
-            isDragging = true;
-            activeEl = item;
-            startX = e.clientX;
-            startY = e.clientY;
-            initialLeft = activeEl.offsetLeft;
-            initialTop = activeEl.offsetTop;
-            e.preventDefault();
-        });
+        const link = document.createElement('a');
+        link.download='traof-certificate.png';
+        link.href=canvas.toDataURL();
+        link.click();
+
+        document.querySelector('.layer-tools').style.display='flex';
     });
+}
 
-    document.addEventListener('mousemove', function(e) {
-        if (!isDragging || !activeEl) return;
-        const dx = e.clientX - startX;
-        const dy = e.clientY - startY;
-        activeEl.style.left = (initialLeft + dx) + 'px';
-        activeEl.style.top = (initialTop + dy) + 'px';
-    });
+let isDragging = false;
+let offsetX, offsetY;
 
-    document.addEventListener('mouseup', () => { isDragging = false; activeEl = null; });
+layer.addEventListener('mousedown', function(e){
+    isDragging = true;
 
-    // Download functionality using html2canvas
-    function downloadCertificate() {
-        const area = document.getElementById('imageContainer');
-        if (area.style.display === 'none') {
-            alert("يرجى رفع قالب أولاً");
-            return;
-        }
-        
-        // Hide handles during capture
-        document.querySelectorAll('.drag-handle').forEach(h => h.style.display = 'none');
-        
-        html2canvas(area).then(canvas => {
-            const link = document.createElement('a');
-            link.download = 'certificate.png';
-            link.href = canvas.toDataURL();
-            link.click();
-            document.querySelectorAll('.drag-handle').forEach(h => h.style.display = 'flex');
-        });
-    }
+    offsetX = e.clientX - layer.offsetLeft;
+    offsetY = e.clientY - layer.offsetTop;
+
+    layer.style.transform='none';
+});
+
+document.addEventListener('mousemove', function(e){
+
+    if(!isDragging) return;
+
+    layer.style.left = (e.clientX - offsetX) + 'px';
+    layer.style.top = (e.clientY - offsetY) + 'px';
+});
+
+document.addEventListener('mouseup', function(){
+    isDragging = false;
+});
 </script>
 
 </body>
 </html>
+```
+
+## مميزات النسخة الجديدة
+
+* تصميم Glassmorphism احترافي
+* واجهة عصرية جدًا
+* متجاوب للجوال
+* تحسين كامل للألوان والأنيميشن
+* سحب النص بسهولة
+* تحميل بجودة عالية
+* واجهة احترافية تشبه التطبيقات المدفوعة
+* تحسين الأداء والشكل البصري
+* تأثيرات Hover وحركات ناعمة
+* جاهز لـ GitHub Pages
